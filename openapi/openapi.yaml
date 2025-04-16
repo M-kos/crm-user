@@ -1,0 +1,355 @@
+openapi: 3.0.4
+info:
+  title: User Service API
+  description: API of User microservice
+  version: 0.0.1
+tags:
+  - name: user
+    description: User CRUD
+  - name: auth
+    description: Access to project
+paths:
+  /user:
+    get:
+      tags:
+        - user
+      summary: Get all users.
+      description: Get all users.
+      operationId: get_all_users
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearer_auth: []
+    post:
+      tags:
+        - user
+      summary: Create User.
+      description: Create User.
+      operationId: create_user
+      requestBody:
+        description: Create new user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '422':
+          description: Validation error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearer_auth: []
+  /user/{userId}:
+    get:
+      tags:
+        - user
+      summary: Get User.
+      description: Get user by Id.
+      operationId: get_user_by_id
+      parameters:
+        - name: userId
+          in: path
+          description: returns a single user
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearer_auth: []
+    put:
+      tags:
+        - user
+      summary: Update User.
+      description: Update user by Id.
+      operationId: update_user_by_id
+      parameters:
+        - name: userId
+          in: path
+          description: returns a single user
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Update user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearer_auth: []
+    delete:
+      tags:
+        - user
+      summary: Deletes a user
+      description: Delete a user by id.
+      operationId: delete_user_by_id
+      parameters:
+        - name: userId
+          in: path
+          description: returns void
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: User deleted
+        '404':
+          description: User not found
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearer_auth: []
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login user into the system
+      description: Login user into the system
+      operationId: auth_login_user
+      requestBody:
+        description: Login user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUserRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json: {}
+        '400':
+          description: Invalid username/password supplied
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /auth/refresh:
+    post:
+      tags:
+        - auth
+      summary: Refresh user token
+      description: Refresh user token
+      operationId: auth_refresh_user
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json: {}
+        '400':
+          description: Invalid token supplied
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+    UserStatus:
+      type: string
+      enum:
+        - active
+        - inactive
+        - deleted
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 'b0cda572-f98f-4327-9b15-c8b047b83796'
+        permissions:
+          type: integer
+          format: int32
+          example: 1
+        type:
+          type: string
+          example: 'admin'
+        firstName:
+          type: string
+          example: Ivan
+        lastName:
+          type: string
+          example: Ivanov
+        email:
+          type: string
+          example: ivan.ivanov@example.com
+        phone:
+          type: string
+          example: +79991234567
+        tgName:
+          type: string
+          example: '@ivan_ivanov'
+        status:
+          $ref: '#/components/schemas/UserStatus'
+          example: 'active'
+        createdAt:
+          type: string
+          example: '2022-01-01T00:00:00Z'
+        updatedAt:
+          type: string
+          example: '2022-01-01T00:00:00Z'
+    CreateUserRequest:
+      type: object
+      required:
+        - permissions
+        - type
+        - firstName
+        - lastName
+        - email
+        - status
+      properties:
+        permissions:
+          type: integer
+          format: int32
+          example: 1
+        type:
+          type: string
+          example: 'admin'
+        firstName:
+          type: string
+          example: Ivan
+        lastName:
+          type: string
+          example: Ivanov
+        email:
+          type: string
+          example: ivan.ivanov@example.com
+        phone:
+          type: string
+          example: +79991234567
+        tgName:
+          type: string
+          example: '@ivan_ivanov'
+        status:
+          $ref: '#/components/schemas/UserStatus'
+          example: 'active'
+    UpdateUserRequest:
+      type: object
+      properties:
+        permissions:
+          type: integer
+          format: int32
+          example: 1
+        type:
+          type: string
+          example: 'admin'
+        firstName:
+          type: string
+          example: Ivan
+        lastName:
+          type: string
+          example: Ivanov
+        email:
+          type: string
+          example: ivan.ivanov@example.com
+        phone:
+          type: string
+          example: +79991234567
+        tgName:
+          type: string
+          example: '@ivan_ivanov'
+        status:
+          $ref: '#/components/schemas/UserStatus'
+          example: 'active'
+    LoginUserRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: 'ivan.ivanov@example.com'
+        password:
+          type: string
+          example: '123456'
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
