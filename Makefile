@@ -40,9 +40,16 @@ local-api-up-hot:
 	CompileDaemon -exclude-dir=.git -exclude-dir=bin -exclude-dir=openapi -build='make build' -command='./bin/user' -color=true
 
 docker-build:
-	docker build -t crm-user:latest -f docker/Dockerfile .
+	docker build -t crm-user:latest -f ./Dockerfile .
 
 docker-run:
 	docker run --name user-service -d -p 8080:8080 -e CRM_PORT=8080 crm-user:latest
 
-.PHONY: generate-openapi build build-with-generate lint clean-bin tidy dev-up dev-down dev-api-test dev-db local-api-up local-api-up-hot docker-build docker-run
+compose-up:
+	docker compose -f docker-compose.yaml --project-directory=./ up -d --build
+
+compose-down:
+	docker compose -f docker-compose.yaml --project-directory=./ down
+
+
+.PHONY: generate-openapi build build-with-generate lint clean-bin tidy dev-up dev-down dev-api-test dev-db local-api-up local-api-up-hot docker-build docker-run compose-up compose-down
