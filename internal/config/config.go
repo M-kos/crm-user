@@ -15,7 +15,12 @@ const (
 )
 
 type Config struct {
-	Port string `envconfig:"PORT"`
+	Port       int    `envconfig:"PORT"`
+	DbUser     string `envconfig:"DB_USER"`
+	DbPassword string `envconfig:"DB_PASSWORD"`
+	DbName     string `envconfig:"DB_NAME"`
+	DbPort     int    `envconfig:"DB_PORT"`
+	DbHost     string `envconfig:"DB_HOST"`
 }
 
 func New() *Config {
