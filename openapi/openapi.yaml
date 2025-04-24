@@ -1,4 +1,6 @@
 openapi: 3.0.4
+servers:
+  - url: http://localhost:8080
 info:
   title: User Service API
   description: API of User microservice
@@ -9,7 +11,7 @@ tags:
   - name: auth
     description: Access to project
 paths:
-  /user:
+  /users:
     get:
       tags:
         - user
@@ -65,7 +67,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearer_auth: []
-  /user/{userId}:
+  /users/{userId}:
     get:
       tags:
         - user
