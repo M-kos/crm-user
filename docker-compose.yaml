@@ -11,8 +11,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - ${DB_PORT}:${DB_PORT}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
 
   user_service:
     container_name: user_service
@@ -32,7 +34,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
       DB_PORT: ${DB_PORT}
-      DB_HOST: postgres
+      DB_HOST: ${DB_HOST}
 
 volumes:
   postgres_data:

@@ -201,7 +201,7 @@ paths:
         - auth
       summary: Refresh user token
       description: Refresh user token
-      operationId: auth_refresh_user
+      operationId: auth_refresh_token
       responses:
         '200':
           description: Successful Response

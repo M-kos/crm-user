@@ -2,16 +2,19 @@ package main
 
 import (
 	"fmt"
+	"log/slog"
 	"net/http"
 
 	userApi "github.com/M-kos/crm-user/internal/api/go"
 	"github.com/M-kos/crm-user/internal/config"
 	"github.com/M-kos/crm-user/internal/logger"
+	"github.com/M-kos/crm-user/internal/storage"
 )
 
 func main() {
-	c := config.New()
-	l := logger.NewLogger()
+	config := config.New()
+	log := logger.NewLogger()
+	_ = storage.NewStorage(config)
 
 	AuthAPIService := userApi.NewAuthAPIService()
 	AuthAPIController := userApi.NewAuthAPIController(AuthAPIService)
@@ -21,10 +24,10 @@ func main() {
 
 	router := userApi.NewRouter(AuthAPIController, UserAPIController)
 
-	l.Info("Server started", "port", c.Port)
+	log.Info("Server started", slog.Int("port", config.Port))
 
-	err := http.ListenAndServe(fmt.Sprintf(":%d", c.Port), router)
+	err := http.ListenAndServe(fmt.Sprintf(":%d", config.Port), router)
 	if err != nil {
-		l.Error(err.Error())
+		log.Error(err.Error())
 	}
 }

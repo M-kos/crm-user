@@ -54,10 +54,10 @@ func (c *AuthAPIController) Routes() Routes {
 			"/auth/login",
 			c.AuthLoginUser,
 		},
-		"AuthRefreshUser": Route{
+		"AuthRefreshToken": Route{
 			strings.ToUpper("Post"),
 			"/auth/refresh",
-			c.AuthRefreshUser,
+			c.AuthRefreshToken,
 		},
 	}
 }
@@ -89,9 +89,9 @@ func (c *AuthAPIController) AuthLoginUser(w http.ResponseWriter, r *http.Request
 	_ = EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
-// AuthRefreshUser - Refresh user token
-func (c *AuthAPIController) AuthRefreshUser(w http.ResponseWriter, r *http.Request) {
-	result, err := c.service.AuthRefreshUser(r.Context())
+// AuthRefreshToken - Refresh user token
+func (c *AuthAPIController) AuthRefreshToken(w http.ResponseWriter, r *http.Request) {
+	result, err := c.service.AuthRefreshToken(r.Context())
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

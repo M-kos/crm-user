@@ -44,9 +44,9 @@ func (s *AuthAPIService) AuthLoginUser(ctx context.Context, loginUserRequest Log
 	return Response(http.StatusNotImplemented, nil), errors.New("AuthLoginUser method not implemented")
 }
 
-// AuthRefreshUser - Refresh user token
-func (s *AuthAPIService) AuthRefreshUser(ctx context.Context) (ImplResponse, error) {
-	// TODO - update AuthRefreshUser with the required logic for this service method.
+// AuthRefreshToken - Refresh user token
+func (s *AuthAPIService) AuthRefreshToken(ctx context.Context) (ImplResponse, error) {
+	// TODO - update AuthRefreshToken with the required logic for this service method.
 	// Add api_auth_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	// TODO: Uncomment the next line to return response Response(200, {}) or use other options such as http.Ok ...
@@ -58,5 +58,5 @@ func (s *AuthAPIService) AuthRefreshUser(ctx context.Context) (ImplResponse, err
 	// TODO: Uncomment the next line to return response Response(0, Error{}) or use other options such as http.Ok ...
 	// return Response(0, Error{}), nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("AuthRefreshUser method not implemented")
+	return Response(http.StatusNotImplemented, nil), errors.New("AuthRefreshToken method not implemented")
 }
