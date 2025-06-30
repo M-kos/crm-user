@@ -3,16 +3,16 @@ services:
     container_name: user_service_postgres
     image: postgres:17.4
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${CRM_USER_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${CRM_USER_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${CRM_USER_POSTGRES_NAME}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
       interval: 10s
       timeout: 5s
       retries: 5
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - ${CRM_USER_POSTGRES_PORT}:${CRM_USER_POSTGRES_PORT}
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
 
@@ -26,15 +26,15 @@ services:
       postgres:
         condition: service_healthy
     ports:
-      - ${PORT}:${PORT}
+      - ${CRM_USER_PORT}:${CRM_USER_PORT}
     environment:
-      PORT: ${PORT}
+      PORT: ${CRM_USER_PORT}
 
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
-      DB_PORT: ${DB_PORT}
-      DB_HOST: ${DB_HOST}
+      DB_USER: ${CRM_USER_POSTGRES_USER}
+      DB_PASSWORD: ${CRM_USER_POSTGRES_PASSWORD}
+      DB_NAME: ${CRM_USER_POSTGRES_NAME}
+      DB_PORT: ${CRM_USER_POSTGRES_PORT}
+      DB_HOST: ${CRM_USER_POSTGRES_HOST}
 
 volumes:
   postgres_data:
