@@ -280,6 +280,7 @@ components:
         - lastName
         - email
         - status
+        - password
       properties:
         permissions:
           type: integer
@@ -297,6 +298,9 @@ components:
         email:
           type: string
           example: ivan.ivanov@example.com
+        password:
+          type: string
+          example: 123456
         phone:
           type: string
           example: +79991234567

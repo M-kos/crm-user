@@ -6,25 +6,25 @@ import (
 )
 
 type Logger struct {
-	log *slog.Logger
+	Log *slog.Logger
 }
 
 func NewLogger() *Logger {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
 	return &Logger{
-		log: logger,
+		Log: logger,
 	}
 }
 
 func (l *Logger) Info(msg string, args ...any) {
-	l.log.Info(msg, args...)
+	l.Log.Info(msg, args...)
 }
 
 func (l *Logger) Error(msg string, args ...any) {
-	l.log.Error(msg, args...)
+	l.Log.Error(msg, args...)
 }
 
 func (l *Logger) Warn(msg string, args ...any) {
-	l.log.Warn(msg, args...)
+	l.Log.Warn(msg, args...)
 }

@@ -4,3 +4,4 @@ outputAsLibrary: true
 serverPort: 8080
 sourceFolder: go
 packageName: userApi
+onlyInterfaces: true

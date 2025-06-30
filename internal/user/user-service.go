@@ -36,6 +36,6 @@ func (s *UserService) GetById(ctx context.Context, id string) (*User, error) {
 	return s.repo.GetById(ctx, id)
 }
 
-func (s *UserService) Get(ctx context.Context) ([]*User, error) {
+func (s *UserService) GetAllUsers(ctx context.Context) ([]*User, error) {
 	return s.repo.Get(ctx)
 }
