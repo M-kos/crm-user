@@ -14,13 +14,17 @@ const (
 	LocalEnvFileKey     = "CRM_ENV_FILE"
 )
 
+type PostgresConfig struct {
+	User     string `envconfig:"CRM_USER_POSTGRES_USER"`
+	Password string `envconfig:"CRM_USER_POSTGRES_PASSWORD"`
+	Name     string `envconfig:"CRM_USER_POSTGRES_NAME"`
+	Port     string `envconfig:"CRM_USER_POSTGRES_PORT"`
+	Host     string `envconfig:"CRM_USER_POSTGRES_HOST"`
+}
+
 type Config struct {
-	Port       int    `envconfig:"PORT"`
-	DbUser     string `envconfig:"DB_USER"`
-	DbPassword string `envconfig:"DB_PASSWORD"`
-	DbName     string `envconfig:"DB_NAME"`
-	DbPort     int    `envconfig:"DB_PORT"`
-	DbHost     string `envconfig:"DB_HOST"`
+	Port     int            `envconfig:"CRM_USER_PORT"`
+	Postgres PostgresConfig `envconfig:"POSTGRES"`
 }
 
 func New() *Config {

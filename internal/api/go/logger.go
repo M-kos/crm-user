@@ -11,8 +11,8 @@
 package userApi
 
 import (
-	"log"
 	"net/http"
+	"log"
 	"time"
 )
 

@@ -22,7 +22,7 @@ import (
 // pass the data to a AuthAPIServicer to perform the required actions, then write the service results to the http response.
 type AuthAPIRouter interface { 
 	AuthLoginUser(http.ResponseWriter, *http.Request)
-	AuthRefreshUser(http.ResponseWriter, *http.Request)
+	AuthRefreshToken(http.ResponseWriter, *http.Request)
 }
 // UserAPIRouter defines the required methods for binding the api requests to a responses for the UserAPI
 // The UserAPIRouter implementation should parse necessary information from the http request,
@@ -42,7 +42,7 @@ type UserAPIRouter interface {
 // and updated with the logic required for the API.
 type AuthAPIServicer interface { 
 	AuthLoginUser(context.Context, LoginUserRequest) (ImplResponse, error)
-	AuthRefreshUser(context.Context) (ImplResponse, error)
+	AuthRefreshToken(context.Context) (ImplResponse, error)
 }
 
 
